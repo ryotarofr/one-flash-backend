@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    use HasFactory;
+    use HasFactory; // HasFactoryトレイト: モデルファクトリを定義し、データベースにテストデータを挿入できるようにする
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+    ];
 }
