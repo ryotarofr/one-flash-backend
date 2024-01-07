@@ -33,3 +33,9 @@ alias sail='./vendor/bin/sail'
 ```
 
 `-m`: this is default migration command
+
+### migrate after change model scheme
+
+```bash
+sail artisan migrate
+```
