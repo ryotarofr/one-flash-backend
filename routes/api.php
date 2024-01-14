@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,12 @@ Route::post('student', [StudentController::class, 'upload']);
 Route::put('student/edit/{id}', [StudentController::class, 'edit']);
 
 Route::delete('student/edit/{id}', [StudentController::class, 'delete']);
+
+// モデル募集フォーム
+Route::get('subject', [SubjectController::class, 'index']);
+
+Route::post('subject', [SubjectController::class, 'upload']);
+
+Route::put('subject/edit/{id}', [SubjectController::class, 'edit']);
+
+Route::delete('subject/edit/{id}', [SubjectController::class, 'delete']);
