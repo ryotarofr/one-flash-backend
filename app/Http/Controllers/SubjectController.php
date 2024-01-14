@@ -101,12 +101,26 @@ class SubjectController extends Controller
         } else {
             $subject = Subject::find($id);
 
-            $subject->name = $request->name;
+            $subject->name_kanji = $request->name_kanji;
+            $subject->name_kana = $request->name_kana;
             $subject->email = $request->email;
             $subject->phone = $request->phone;
-
+            $subject->nearest_station = $request->nearest_station;
+            $subject->self_introduction = $request->self_introduction;
+            $subject->stature = $request->stature;
+            $subject->weight = $request->weight;
+            $subject->transportation = $request->transportation;
             $subject->save();
 
+            $picturesData = $request->input('pictures', []);
+            foreach ($picturesData as $pictureData) {
+                $picture = Picture::create([
+                    'picture' => $pictureData['picture']
+                ]);
+
+                // SubjectとPictureを関連付ける
+                $subject->pictures()->save($picture);
+            }
             $data = [
                 'status' => 200,
                 'message' => 'データを更新しました!!'
@@ -119,6 +133,9 @@ class SubjectController extends Controller
     public function delete($id)
     {
         $subject = Subject::find($id);
+
+        // 関連する pictures レコードを削除
+        $subject->pictures()->delete();
 
         $subject->delete();
 
