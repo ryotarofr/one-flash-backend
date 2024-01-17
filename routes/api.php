@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +20,20 @@ use App\Http\Controllers\SubjectController;
 |
 */
 
+// Auth
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('users', function () {
+    return User::all();
+});
+
+Route::post('login', LoginController::class);
+Route::post('logout', LogoutController::class);
+
+Route::post('register', [RegisterController::class, 'register']);
+
 
 Route::get('student', [StudentController::class, 'index']);
 
