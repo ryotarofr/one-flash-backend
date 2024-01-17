@@ -11,6 +11,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Session\Store;
+use Illuminate\Support\Facades\Auth;
 
 final class LoginController extends Controller
 {
@@ -27,17 +28,18 @@ final class LoginController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function __invoke(LoginRequest $request, Store $session): JsonResponse
+    public function __invoke(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        if ($this->auth->guard()->attempt($credentials)) {
-            $request->setLaravelSession($session);
-            return new JsonResponse([
-                'message' => 'ログインに成功',
-            ]);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return response()->json(Auth::user());
         }
-
-        throw new AuthenticationException();
+        return response()->json([], 401);
     }
 }
