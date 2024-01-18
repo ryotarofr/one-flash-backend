@@ -21,6 +21,7 @@ class Subject extends Model
         'self_introduction',
         'stature',
         'weight',
+        'user_id',
         'picture_id',
         'transportation',
     ];

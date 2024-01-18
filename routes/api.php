@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SubjectWithUserController;
 use App\Models\User;
 
 /*
@@ -30,10 +31,10 @@ Route::get('users', function () {
 });
 
 Route::post('login', LoginController::class);
+
 Route::post('logout', LogoutController::class);
 
 Route::post('register', [RegisterController::class, 'register']);
-
 
 Route::get('student', [StudentController::class, 'index']);
 
@@ -44,10 +45,20 @@ Route::put('student/edit/{id}', [StudentController::class, 'edit']);
 Route::delete('student/edit/{id}', [StudentController::class, 'delete']);
 
 // モデル募集フォーム
-Route::get('subject', [SubjectController::class, 'index']);
+Route::get('/subject', [SubjectController::class, 'index']);
 
 Route::post('subject', [SubjectController::class, 'upload']);
 
 Route::put('subject/edit/{id}', [SubjectController::class, 'edit']);
 
 Route::delete('subject/edit/{id}', [SubjectController::class, 'delete']);
+
+
+// ユーザーがいる状態のモデル編集ページ
+Route::get('{user_id}/subject', [SubjectWithUserController::class, 'index']);
+
+Route::post('{user_id}/subject', [SubjectWithUserController::class, 'upload']);
+
+Route::put('{user_id}/subject/edit/{subject_id}', [SubjectWithUserController::class, 'edit']);
+
+Route::delete('{user_id}/subject/edit/{subject_id}', [SubjectWithUserController::class, 'delete']);
