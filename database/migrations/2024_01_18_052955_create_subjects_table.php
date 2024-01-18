@@ -24,10 +24,12 @@ return new class extends Migration
             $table->string('self_introduction');
             $table->integer('stature');
             $table->integer('weight');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('picture_id')->nullable();
             $table->enum('transportation', ['train', 'bus', 'car']);
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('picture_id')->references('id')->on('pictures');
         });
     }
